@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script type="text/javascript" src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+    <title>18级信息安全作业提交系统</title>
+    <style type="text/css">
+        body
+        {
+            background-color: rgba(241,250,250,0.6);
+        }
+        *{
+            font-family: 微软雅黑;
+            color: #4A4A4A;
+        }
+        .title {
+            text-align: center;
+            background: rgba(241, 250, 250, 0.6);
+            color: #ffa74b;
+            font-size: 24px;
+        }
+        .upload{
+            width: 700px;
+            padding: 20px;
+            border: 1px dashed #ccc;
+            margin: 10px auto;
+            border-radius: 5px;
+        }
+        .uploadBox{
+            width: 100%;
+            height: 35px;
+            position: relative;
+        }
+        .uploadBox input{
+            width: 200px;
+            height: 30px;
+            background: red;
+            position: absolute;
+            top: 2px;
+            left: 0;
+            z-index: 201;
+            opacity: 0;
+            cursor: pointer;
+        }
+        .uploadBox .inputCover0{
+            width: 300px;
+            height: 30px;
+            position: absolute;
+            top: 2px;
+            left: 0;
+            z-index: 200;
+            text-align: center;
+            line-height: 30px;
+            font-size: 14px;
+            border: 1px solid #009393;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .uploadBox .inputCover1{
+            width: 300px;
+            height: 30px;
+            position: absolute;
+            top: 2px;
+            left: 0;
+            z-index: 200;
+            text-align: center;
+            line-height: 30px;
+            font-size: 14px;
+            border: 1px solid #009393;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .uploadBox .inputCover2{
+            width: 300px;
+            height: 30px;
+            position: absolute;
+            top: 2px;
+            left: 0;
+            z-index: 200;
+            text-align: center;
+            line-height: 30px;
+            font-size: 14px;
+            border: 1px solid #009393;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .processBar0{
+            display: inline-block;
+            width: 0;
+            height: 7px;
+            position: absolute;
+            left: 500px;
+            top: 14px;
+            background: #009393;
+        }
+        .processBar1{
+            display: inline-block;
+            width: 0;
+            height: 7px;
+            position: absolute;
+            left: 500px;
+            top: 14px;
+            background: #009393;
+        }
+        .processBar2{
+            display: inline-block;
+            width: 0;
+            height: 7px;
+            position: absolute;
+            left: 500px;
+            top: 14px;
+            background: #009393;
+        }
+        .processNum0{
+            position: absolute;
+            left: 620px;
+            color: #009393;
+            font-size: 12px;
+            line-height: 35px;
+        }
+        .processNum1 {
+            position: absolute;
+            left: 620px;
+            color: #009393;
+            font-size: 12px;
+            line-height: 35px;
+        }
+        .processNum2 {
+            position: absolute;
+            left: 620px;
+            color: #009393;
+            font-size: 12px;
+            line-height: 35px;
+        }
+        .submit {
+            -webkit-transition-duration: 0.4s;
+            transition-duration: 0.4s;
+            padding: 5px 20px;
+            text-align: center;
+            background-color: white;
+            color: black;
+            border: 1px solid #009393;
+            border-radius:10px;
+            float: right;
+        }
+        .submit:hover {
+            background-color: #009393;
+            color: white;
+        }
+        .input1{
+            border: 1px solid #ccc;
+            padding: 7px 0px;
+            border-radius: 3px;
+            padding-left:5px;
+            -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+            box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+            -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+            -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+            transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s
+        }
+        .input1:focus{
+            border-color: #66afe9;
+            outline: 0;
+            -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6);
+            box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6)
+        }
+        .progress {
+            width: 600px;
+            height: 10px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            margin: 10px 0px;
+            overflow: hidden;
+        }
+        /* 初始状态设置进度条宽度为0px */
+        .progress > div {
+            width: 0px;
+            height: 100%;
+            background-color: yellowgreen;
+            transition: all .3s ease;
+        }
+    </style>
+</head>
+<body style>
+    <div class="title" align="center">
+        <br>安徽大学18级信息安全作业提交系统
+    </div>
+    <div align="center">
+        <br>
+        <b>说明</b>
+        <br>1.本次作业提交截至时间为2021年1月7日 12:00
+        <br>2.只允许提交zip格式的压缩文件，且文件大小不得超过20M
+        <br>3.本作业只允许提交一次，提交前请务必核实姓名与学号是否正确，如写错可能影响作业提交情况的自动统计
+    </div>
+    <div class="upload">
+        <div class="uploadBox">
+            <span class="inputCover0">选择压缩文件</span>
+            <form enctype="">
+                <input type="file" name="file" id="file0">
+            </form>
+        <span class="processBar0"></span>
+        <span class="processNum0">未选择文件</span>
+        </div>
+    </div>
+    <div class="upload">
+        <label>学号：</label><input class="input1" type="text" id="stu_id" >
+        <label>姓名：</label><input class="input1" type="text" id="stu_name" >
+        <button type="button" class="submit" id="button1">提交</button>
+        <div class="progress">
+            <div></div>
+        </div>
+    </div>
+
+    <div id="result"></div>
+    <script>
+        $(document).ready(function(){
+            var inputCover0 = $(".inputCover0");
+            var processNum0 = $(".processNum0");
+            var processBar0 = $(".processBar0");
+            $("#file0").change(function(){
+                var file0 = document.getElementById('file0');
+                var file0Name = file0.files[0].name;
+                var file0Size = file0.files[0].size;
+                processBar0.css("width",0);
+                if(file0Size > 20*1024*1024) {
+                    inputCover0.html("<span>文件过大，请重新选择</span>");
+                    processNum0.html('未选择文件');
+                    document.getElementById('file0').value = '';
+                    return false;
+                }else{
+                    var isnext = false;
+                    var fileEnd = file0Name.substring(file0Name.indexOf(".")+1).toLowerCase();
+                    if(fileEnd != 'zip')
+                    {
+                        inputCover0.html("<span>文件格式有误，请重新选择</span>");
+                        processNum0.html('未选择文件');
+                        document.getElementById('file0').value = '';
+                        return false;
+                    }else{
+                        inputCover0.html(file0Name);
+                        processNum0.html('等待提交');
+                    }
+                }
+            })
+            $("#button1").click(function(){
+                if($("#file0").val() == ''){
+                    alert('您还有文件没有上传！');
+                }else
+                {
+                    if($("#stu_id").val()==''||$("#stu_name").val()==''){
+                        alert('学号或姓名不能为空！');
+                    }else
+                    {
+                        upload();
+                    }
+                }
+            });
+            function upload(){
+                var form = new FormData();
+                form.append('myfile0',document.getElementById('file0').files[0]);
+                form.append("id",$("#stu_id").val());
+                form.append("name",$("#stu_name").val());
+                $.ajax({
+                    url: 'upload.php',
+                    async: true,
+                    beforeSend: function () {
+                        ShowDiv();
+                    },
+                    complete: function () {
+                        HiddenDiv();
+                    },
+                    type: 'post',
+                    data: form,
+                    processData: false,
+                    contentType: false,
+                    xhr: function() {
+                        var xhr = new XMLHttpRequest();
+                        //使用XMLHttpRequest.upload监听上传过程，注册progress事件，打印回调函数中的event事件
+                        xhr.upload.addEventListener('progress', function (e) {
+                            console.log(e);
+                            //loaded代表上传了多少
+                            //total代表总数为多少
+                            var progressRate = (e.loaded / e.total) * 100 + '%';
+
+                            //通过设置进度条的宽度达到效果
+                            $('.progress > div').css('width', progressRate);
+                        })
+
+                        return xhr;
+                    },
+                    success:function (data) {
+                        $("#result").html(data);
+                    }
+                })
+            }
+            function ShowDiv() {
+                $("#button1").text("正在提交！");
+                $("#button1").attr("disabled", true);
+            }
+            function HiddenDiv() {
+                $("#button1").text("提交");
+                $("#button1").attr("disabled", false);
+            }
+        })
+    </script>
+</body>
+</html>
